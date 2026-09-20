@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quem não te segue de volta</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root{--bg:#F1F4F9;--surface:#FFFFFF;--ink:#16213A;--muted:#5B6781;--line:#D6DDEA;--accent:#2F4FE0;--alert:#D93A55;--warnbg:#FFF6E0;--warnink:#4A3A0B;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1626;--surface:#172035;--ink:#E8ECF5;--muted:#9AA6C0;--line:#2A3552;--accent:#8CA0FF;--alert:#FF6B83;--warnbg:#3A2F10;--warnink:#FFE9B0}}
+:root[data-theme="dark"]{--bg:#0F1626;--surface:#172035;--ink:#E8ECF5;--muted:#9AA6C0;--line:#2A3552;--accent:#8CA0FF;--alert:#FF6B83;--warnbg:#3A2F10;--warnink:#FFE9B0}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Instrument Sans",system-ui,-apple-system,sans-serif}
+main{max-width:760px;margin:0 auto;padding:2.5rem 1rem 4rem}
+h1{font:800 clamp(2rem,8vw,3.4rem)/1.03 "Bricolage Grotesque",system-ui,sans-serif;margin:0 0 .75rem;letter-spacing:-.02em}
+h2{font:500 1.25rem/1.25 "Bricolage Grotesque",system-ui,sans-serif;margin:2.5rem 0 .75rem}
+p{margin:0 0 1rem;max-width:62ch}
+.lead{color:var(--muted);font-size:1.05rem}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:.5rem 0;overflow:hidden}
+.step>summary{cursor:pointer;font-weight:600;padding:.9rem 1rem;list-style:none;display:flex;gap:.7rem;align-items:baseline}
+.step>summary::-webkit-details-marker{display:none}
+.step>summary::after{content:"+";margin-left:auto;color:var(--muted);font-weight:400;font-size:1.3rem;line-height:1}
+.step[open]>summary::after{content:"–"}
+.step>summary b{color:var(--accent);font:800 .85rem/1.6 "Instrument Sans",sans-serif;letter-spacing:.06em}
+.step .body{padding:0 1rem 1rem;color:var(--muted)}
+.step .body p{margin:0 0 .7rem}
+.step .body strong{color:var(--ink)}
+.step ul{margin:.5rem 0;padding-left:1.1rem}
+.step li{margin:.25rem 0}
+.tip{background:var(--warnbg);color:var(--warnink);border-radius:8px;padding:.7rem .9rem;font-size:.92rem;margin:.7rem 0 0}
+.drop{display:block;border:2px dashed var(--line);border-radius:14px;padding:2rem 1rem;text-align:center;background:var(--surface);cursor:pointer;margin:1.25rem 0}
+.drop.over{border-color:var(--accent);background:var(--surface)}
+.drop strong{display:block;font-size:1.05rem;margin-bottom:.3rem}
+.drop span{color:var(--muted);font-size:.9rem}
+input[type=file]{position:absolute;opacity:0;width:1px;height:1px}
+.msg{padding:.85rem 1rem;border-radius:10px;border-left:6px solid var(--alert);background:var(--surface);display:none;margin:0 0 1rem}
+.warn{border-left-color:#E0A31B;background:var(--warnbg);color:var(--warnink);font-weight:600}
+.big{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;margin:1.5rem 0 1rem}
+.big b{font:800 clamp(3.4rem,18vw,6rem)/.9 "Bricolage Grotesque",sans-serif;color:var(--alert)}
+.big span{font-size:1.05rem;max-width:20ch}
+.stats{display:flex;gap:1rem 1.5rem;flex-wrap:wrap;color:var(--muted);margin-bottom:1.25rem;font-size:.95rem}
+.stats strong{color:var(--ink)}
+.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.9rem}
+button{font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:.5rem .85rem;border-radius:999px;cursor:pointer;min-height:44px}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.tools{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem}
+.tools button{flex:1 1 auto}
+input[type=search]{flex:1 1 100%;font:inherit;padding:.6rem .8rem;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);min-height:44px}
+ul.list{list-style:none;padding:0;margin:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+ul.list li{margin:0;padding:.6rem .8rem;border-top:1px solid var(--line);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+ul.list li:first-child{border-top:0}
+ul.list a{color:var(--accent);text-decoration:none;font-weight:600;word-break:break-all;flex:1 1 auto;min-width:0}
+ul.list a:hover{text-decoration:underline}
+li.done a{color:var(--muted);text-decoration:line-through}
+ul.list small{color:var(--muted);font-size:.8rem;flex:1 1 100%;order:3}
+.mark{padding:.35rem .7rem;font-size:.85rem;min-height:38px;border-radius:8px}
+.empty{padding:1rem;color:var(--muted)}
+.privacy{margin-top:2.5rem;color:var(--muted);font-size:.88rem}
+#result{display:none}
+@media (max-width:420px){.tabs button{flex:1 1 calc(50% - .2rem)}}
+</style>
+</head>
+<body>
+<main>
+<h1>Quem não te segue de volta</h1>
+<p class="lead">Compare seus seguidores com quem você segue usando o arquivo oficial do Instagram. Tudo roda dentro do seu navegador: nada é enviado para servidor nenhum e sua senha nunca é pedida aqui.</p>
+
+<h2>Como obter o arquivo</h2>
+<p class="lead" style="font-size:.95rem">Abra apenas o passo em que tiver dúvida.</p>
+
+<details class="step"><summary><b>1</b> Abrir a Central de Contas</summary>
+<div class="body">
+<p>No app do Instagram, vá até o seu <strong>perfil</strong> (ícone ao lado da lupa). No topo da tela, ao lado do ícone de arroba do Threads, toque nas <strong>três barrinhas</strong>.</p>
+<p>No menu que abrir, toque na primeira opção: <strong>Central de Contas</strong>.</p>
+</div></details>
+
+<details class="step"><summary><b>2</b> Iniciar a exportação</summary>
+<div class="body">
+<p>Dentro da Central de Contas, toque em <strong>Suas informações e permissões</strong> e depois em <strong>Exportar suas informações</strong>.</p>
+<p>O app abre o site do Instagram, onde você toca em <strong>Criar exportação</strong> e seleciona o <strong>perfil do Instagram</strong> desejado.</p>
+<p>Na pergunta sobre o destino, escolha <strong>Exportar para o dispositivo</strong>.</p>
+</div></details>
+
+<details class="step"><summary><b>3</b> Marcar só "Seguidores e seguindo"</summary>
+<div class="body">
+<p>Toque em <strong>Personalizar informações</strong>. A lista vem toda marcada, então desmarque tudo e deixe apenas uma opção ligada:</p>
+<ul>
+<li>Sua atividade no Instagram: <strong>limpar tudo</strong></li>
+<li>Informações pessoais: <strong>limpar tudo</strong></li>
+<li>Conexões: deixar <strong>somente "Seguidores e seguindo"</strong></li>
+<li>Informações registradas: <strong>limpar tudo</strong></li>
+<li>Informações de login e segurança: <strong>limpar tudo</strong></li>
+<li>Apps e sites fora do Instagram: <strong>limpar tudo</strong></li>
+<li>Preferências: <strong>limpar tudo</strong></li>
+<li>Informações de anúncios: <strong>limpar tudo</strong></li>
+</ul>
+<p>Toque em <strong>Salvar</strong>.</p>
+<p class="tip">Isso mantém suas mensagens, fotos e dados pessoais fora do arquivo. O zip fica pequeno e contém apenas as duas listas necessárias para a comparação.</p>
+</div></details>
+
+<details class="step" open><summary><b>4</b> Escolher o período "Desde o início"</summary>
+<div class="body">
+<p>Ainda na mesma tela, entre em <strong>Intervalo de datas</strong> e troque para <strong>Desde o início</strong>. Toque em <strong>Salvar</strong>.</p>
+<p class="tip">Este é o passo que mais gente erra. O padrão é "Último ano", e nesse caso o arquivo traz só quem passou a te seguir nos últimos 12 meses. Seus seguidores antigos ficam de fora e aparecem por engano na lista de quem não te segue de volta.</p>
+</div></details>
+
+<details class="step"><summary><b>5</b> Confirmar e baixar o zip</summary>
+<div class="body">
+<p>Toque em <strong>Iniciar exportação</strong> e informe sua <strong>senha do Instagram</strong> para confirmar (isso acontece dentro do site oficial do Instagram, nunca aqui).</p>
+<p>Você recebe um e-mail confirmando o pedido e, em geral depois de uns 10 minutos, um segundo e-mail com o link de download. Baixe o arquivo <strong>.zip</strong> e anexe abaixo.</p>
+</div></details>
+
+<h2>Enviar o arquivo</h2>
+<label class="drop" id="drop">
+<strong>Escolher o .zip do Instagram</strong>
+<span>No computador você também pode arrastar aqui. Aceita JSON ou HTML, inclusive os arquivos followers e following soltos.</span>
+<input type="file" id="file" accept=".zip,.json,.html" multiple>
+</label>
+<p class="msg" id="msg" role="alert"></p>
+
+<section id="result" aria-live="polite">
+<p class="msg warn" id="warn"></p>
+<div class="big"><b id="count">0</b><span>perfis que você segue não te seguem de volta</span></div>
+<div class="stats">
+<span>Seguidores: <strong id="nFollowers">0</strong></span>
+<span>Seguindo: <strong id="nFollowing">0</strong></span>
+<span>Mútuos: <strong id="nMutual">0</strong></span>
+</div>
+<div class="tabs" role="group" aria-label="Lista exibida">
+<button data-tab="notBack" aria-pressed="true">Não te seguem de volta</button>
+<button data-tab="fans" aria-pressed="false">Você não segue de volta</button>
+<button data-tab="mutual" aria-pressed="false">Mútuos</button>
+<button data-tab="done" aria-pressed="false">Já resolvidos</button>
+</div>
+<div class="tools">
+<input type="search" id="q" placeholder="Filtrar por nome de usuário" aria-label="Filtrar por nome de usuário">
+<button id="copy">Copiar lista</button>
+<button id="csv">Baixar CSV</button>
+</div>
+<ul class="list" id="list"></ul>
+</section>
+
+<p class="privacy">Este site não pede login do Instagram, não guarda nada em servidor e funciona offline depois de carregado. A marcação de perfis já resolvidos fica salva só neste aparelho e neste navegador. Desconfie de qualquer ferramenta que peça sua senha do Instagram.</p>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const STORE = 'ig-resolvidos';
+let data = {notBack:[], fans:[], mutual:[]}, tab = 'notBack', followingMap = new Map(), partialRange = null;
+let done = new Set();
+try{ done = new Set(JSON.parse(localStorage.getItem(STORE) || '[]')); }catch(e){}
+function saveDone(){ try{ localStorage.setItem(STORE, JSON.stringify([...done])); }catch(e){} }
+
+function cleanUser(v){
+  v = (v || '').trim();
+  if(/instagram\.com\//.test(v)) v = v.replace(/[?#].*$/,'').replace(/\/+$/,'').split('/').pop();
+  return v.replace(/^@/,'').toLowerCase();
+}
+function userFrom(entry){
+  const s = (entry.string_list_data && entry.string_list_data[0]) || {};
+  return {user: cleanUser(s.value || entry.title || s.href), ts: s.timestamp || 0};
+}
+function extractJson(json){
+  const arr = Array.isArray(json) ? json : (json.relationships_following || json.relationships_followers || []);
+  return arr.map(userFrom).filter(x => x.user);
+}
+function extractHtml(text){
+  const doc = new DOMParser().parseFromString(text, 'text/html');
+  const times = doc.querySelectorAll('aside time[datetime]');
+  if(times.length >= 3){
+    const start = new Date(times[1].getAttribute('datetime')), end = new Date(times[2].getAttribute('datetime'));
+    if(end - start < 1000*60*60*24*400) partialRange = [start, end];
+  }
+  const seen = new Set(), out = [];
+  doc.querySelectorAll('main a[href*="instagram.com/"]').forEach(a => {
+    const u = cleanUser(a.getAttribute('href'));
+    if(u && u !== '_u' && !seen.has(u)){ seen.add(u); out.push({user: u, ts: 0}); }
+  });
+  return out;
+}
+
+async function handle(files){
+  $('#msg').style.display = 'none';
+  partialRange = null;
+  const followers = [], following = [];
+  const add = (name, text) => {
+    const isHtml = /\.html?$/i.test(name);
+    const rows = isHtml ? extractHtml(text) : extractJson(JSON.parse(text));
+    if(/^followers_?\d*\./i.test(name)) followers.push(...rows);
+    else if(/^following\./i.test(name)) following.push(...rows);
+  };
+  try{
+    for(const f of files){
+      if(f.name.toLowerCase().endsWith('.zip')){
+        const zip = await JSZip.loadAsync(f);
+        for(const path of Object.keys(zip.files)){
+          if(!path.includes('followers_and_following/')) continue;
+          const name = path.split('/').pop();
+          if(/^(followers_?\d*|following)\.(json|html?)$/i.test(name)) add(name, await zip.file(path).async('string'));
+        }
+      } else add(f.name, await f.text());
+    }
+  }catch(e){
+    return fail('Não foi possível ler o arquivo. Confira se é o .zip original que o Instagram enviou por e-mail.');
+  }
+  if(!followers.length || !following.length)
+    return fail('Não encontrei as listas de seguidores e seguindo. Refaça a exportação marcando "Seguidores e seguindo" no passo 3.');
+
+  const fSet = new Set(followers.map(x => x.user));
+  followingMap = new Map(following.map(x => [x.user, x.ts]));
+  const gSet = new Set(followingMap.keys());
+  data.notBack = [...gSet].filter(u => !fSet.has(u)).sort();
+  data.fans = [...fSet].filter(u => !gSet.has(u)).sort();
+  data.mutual = [...gSet].filter(u => fSet.has(u)).sort();
+
+  $('#nFollowers').textContent = fSet.size;
+  $('#nFollowing').textContent = gSet.size;
+  $('#nMutual').textContent = data.mutual.length;
+
+  const w = $('#warn');
+  $('#count').style.color = partialRange ? 'var(--muted)' : 'var(--alert)';
+  if(partialRange){
+    const d = x => x.toLocaleDateString('pt-BR');
+    w.textContent = 'Atenção: este arquivo só contém dados de ' + d(partialRange[0]) + ' a ' + d(partialRange[1]) + '. Seguidores mais antigos ficaram de fora e vão aparecer errado na lista. Refaça a exportação com o intervalo "Desde o início" (passo 4).';
+    w.style.display = 'block';
+  } else w.style.display = 'none';
+
+  $('#result').style.display = 'block';
+  render();
+  $('#result').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'});
+}
+function fail(t){ const m = $('#msg'); m.textContent = t; m.style.display = 'block'; }
+
+function base(){
+  if(tab === 'done') return [...done].sort();
+  return data[tab].filter(u => !done.has(u));
+}
+function current(){
+  const q = $('#q').value.trim().toLowerCase().replace(/^@/,'');
+  return base().filter(u => u.includes(q));
+}
+function render(){
+  $('#count').textContent = data.notBack.filter(u => !done.has(u)).length;
+  const items = current(), ul = $('#list');
+  ul.innerHTML = '';
+  if(!items.length){
+    const li = document.createElement('li');
+    li.className = 'empty';
+    li.textContent = tab === 'done' ? 'Nenhum perfil marcado ainda. Use o botão "Riscar" nas outras listas.' : 'Nenhum perfil nesta lista.';
+    ul.appendChild(li);
+    return;
+  }
+  const frag = document.createDocumentFragment();
+  for(const u of items){
+    const li = document.createElement('li');
+    if(tab === 'done') li.className = 'done';
+    const a = document.createElement('a');
+    a.href = 'https://www.instagram.com/' + encodeURIComponent(u) + '/';
+    a.target = '_blank'; a.rel = 'noopener'; a.textContent = '@' + u;
+    li.appendChild(a);
+    const b = document.createElement('button');
+    b.className = 'mark';
+    b.textContent = done.has(u) ? 'Restaurar' : 'Riscar';
+    b.setAttribute('aria-label', (done.has(u) ? 'Restaurar ' : 'Riscar ') + '@' + u);
+    b.onclick = () => { done.has(u) ? done.delete(u) : done.add(u); saveDone(); render(); };
+    li.appendChild(b);
+    const ts = followingMap.get(u);
+    if(tab === 'notBack' && ts){
+      const s = document.createElement('small');
+      s.textContent = 'você seguiu em ' + new Date(ts*1000).toLocaleDateString('pt-BR');
+      li.appendChild(s);
+    }
+    frag.appendChild(li);
+  }
+  ul.appendChild(frag);
+}
+
+document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
+  tab = b.dataset.tab;
+  document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  render();
+});
+$('#q').oninput = render;
+$('#copy').onclick = async () => {
+  const btn = $('#copy');
+  try{ await navigator.clipboard.writeText(current().map(u => '@' + u).join('\n')); btn.textContent = 'Lista copiada'; }
+  catch(e){ btn.textContent = 'Não foi possível copiar'; }
+  setTimeout(() => btn.textContent = 'Copiar lista', 1800);
+};
+$('#csv').onclick = () => {
+  const csv = 'usuario,link\n' + current().map(u => u + ',https://www.instagram.com/' + u + '/').join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = tab + '.csv'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+$('#file').onchange = e => e.target.files.length && handle([...e.target.files]);
+const drop = $('#drop');
+['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => e.dataTransfer.files.length && handle([...e.dataTransfer.files]));
+</script>
+</body>
+</html>
